@@ -1,0 +1,6 @@
+{
+  "name": "MITNODE Mentorship Dispatcher",
+  "description": "A real-time mentorship management system for science fairs, featuring one-click dispatching, status tracking, and coordinator bird's-eye view.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
