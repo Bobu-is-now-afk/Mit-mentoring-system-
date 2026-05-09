@@ -10,9 +10,17 @@ interface MentorViewProps {
   mentorId: string;
   mentorName: string;
   registry: Record<string, string>;
+  onClearAllData?: () => void;
 }
 
-export default function MentorView({ teams, onUpdateTeam, mentorId, mentorName, registry }: MentorViewProps) {
+export default function MentorView({ 
+  teams, 
+  onUpdateTeam, 
+  mentorId, 
+  mentorName, 
+  registry,
+  onClearAllData 
+}: MentorViewProps) {
   const [activeSession, setActiveSession] = useState(SESSIONS[0].id);
   const currentTeam = teams.find(t => t.mentorId === mentorId && t.status === 'busy');
   const [timeLeft, setTimeLeft] = useState<number>(0);
@@ -221,6 +229,17 @@ export default function MentorView({ teams, onUpdateTeam, mentorId, mentorName, 
           );
         })}
       </div>
+
+      {mentorName.trim().toLowerCase() === 'lead dispatcher' && onClearAllData && (
+        <div className="flex justify-end pt-4 border-t-2 border-black">
+          <button
+            onClick={onClearAllData}
+            className="px-6 py-3 bg-[#A31F34] text-white text-xs font-black uppercase tracking-widest hover:bg-black transition-all shadow-solid-red border-2 border-black"
+          >
+            Clear All Session Data
+          </button>
+        </div>
+      )}
 
       {/* Editorial Floating Status Bar */}
       <AnimatePresence>

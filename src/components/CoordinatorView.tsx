@@ -9,9 +9,10 @@ interface CoordinatorViewProps {
   teams: Team[];
   registry: Record<string, string>;
   onRegistryChange: (registry: Record<string, string>) => void;
+  mentorName: string;
 }
 
-export default function CoordinatorView({ teams, registry, onRegistryChange }: CoordinatorViewProps) {
+export default function CoordinatorView({ teams, registry, onRegistryChange, mentorName }: CoordinatorViewProps) {
   const [activeTab, setActiveTab] = useState<'matrix' | 'registry'>('matrix');
 
   const stats = useMemo(() => {

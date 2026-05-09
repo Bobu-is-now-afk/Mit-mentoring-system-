@@ -10,7 +10,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { UserRole, Team, TeamStatus } from './types';
-import { INITIAL_TEAMS, MENTOR_IDENTITIES } from './constants';
+import { getInitialTeams, MENTOR_IDENTITIES } from './constants';
 import Layout from './components/Layout';
 import MentorView from './components/MentorView';
 import CoordinatorView from './components/CoordinatorView';
@@ -33,11 +33,11 @@ export default function App() {
       // Migration: If data is old (doesn't have teamNumber or has more than 30 teams or missing stages)
       if (!parsed[0]?.teamNumber || parsed.length !== 30 || !parsed[0]?.completedStages) {
         localStorage.removeItem('mitnode_teams');
-        return INITIAL_TEAMS;
+        return getInitialTeams();
       }
       return parsed;
     }
-    return INITIAL_TEAMS;
+    return getInitialTeams();
   });
 
   const [registry, setRegistry] = useState<Record<string, string>>(() => {
@@ -72,7 +72,7 @@ export default function App() {
     };
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
-  }, [teams]);
+  }, [teams, registry]);
 
   const handleRoleSelection = (selectedRole: UserRole) => {
     let currentName = mentorName;
@@ -202,6 +202,19 @@ export default function App() {
     completed: teams.filter(t => t.status === 'done').length,
   };
 
+  const clearAllData = () => {
+    if (window.confirm('CRITICAL: This will wipe all session assignments and reset team progress. Continue?')) {
+      if (window.confirm('ARE YOU ABSOLUTELY SURE? This action is IRREVERSIBLE and will reset everything for the next session.')) {
+        // Clear storage
+        localStorage.removeItem('mitnode_registry');
+        localStorage.removeItem('mitnode_teams');
+        
+        // Force reload to ensure everything is reset from scratch
+        window.location.reload();
+      }
+    }
+  };
+
   return (
     <Layout 
       role={role} 
@@ -228,6 +241,7 @@ export default function App() {
               mentorId={mentorId}
               mentorName={mentorName}
               registry={registry}
+              onClearAllData={clearAllData}
             />
           </motion.div>
         ) : (
@@ -241,6 +255,7 @@ export default function App() {
               teams={teams} 
               registry={registry}
               onRegistryChange={setRegistry}
+              mentorName={mentorName}
             />
           </motion.div>
         )}

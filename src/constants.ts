@@ -1,6 +1,6 @@
 import { Team } from './types';
 
-export const INITIAL_TEAMS: Team[] = Array.from({ length: 30 }, (_, i) => {
+export const getInitialTeams = (): Team[] => Array.from({ length: 30 }, (_, i) => {
   const teamNumber = i + 1;
   let boothGroup = "A";
   let groupStart = 1;

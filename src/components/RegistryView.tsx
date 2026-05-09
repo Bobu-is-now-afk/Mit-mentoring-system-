@@ -10,7 +10,11 @@ interface RegistryViewProps {
   onRegistryChange: (registry: Record<string, string>) => void;
 }
 
-export const RegistryView: React.FC<RegistryViewProps> = ({ teams, registry, onRegistryChange }) => {
+export const RegistryView: React.FC<RegistryViewProps> = ({ 
+  teams, 
+  registry, 
+  onRegistryChange
+}) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState<string | null>(null);
 
@@ -129,13 +133,15 @@ export const RegistryView: React.FC<RegistryViewProps> = ({ teams, registry, onR
         </table>
       </div>
 
-      <div className="flex items-center gap-4 bg-gray-900 text-white p-4 rounded-sm">
-        <div className="p-2 bg-yellow-400 rounded-full">
-          <Save className="w-4 h-4 text-black" />
-        </div>
-        <div className="text-[10px] font-mono leading-tight">
-          <p className="font-bold uppercase text-yellow-400">Autosave Enabled</p>
-          <p className="opacity-60 uppercase">System state persists in coordinating hardware</p>
+      <div className="flex items-center justify-between gap-4 bg-gray-900 text-white p-4 rounded-sm">
+        <div className="flex items-center gap-4">
+          <div className="p-2 bg-yellow-400 rounded-full">
+            <Save className="w-4 h-4 text-black" />
+          </div>
+          <div className="text-[10px] font-mono leading-tight">
+            <p className="font-bold uppercase text-yellow-400">Autosave Enabled</p>
+            <p className="opacity-60 uppercase">System state persists in coordinating hardware</p>
+          </div>
         </div>
       </div>
     </div>
